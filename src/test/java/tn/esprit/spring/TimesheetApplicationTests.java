@@ -24,7 +24,6 @@ class TimesheetApplicationTests {
 	
    	@Test
 	public void testGetDepartement() {
-	assertEquals(1, departSer.getAllDepartements().size());
-
+	assertEquals(0, departSer.getAllDepartements().size());
 }
 }
