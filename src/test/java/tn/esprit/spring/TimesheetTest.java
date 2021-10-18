@@ -1,78 +1,64 @@
 package tn.esprit.spring;
 
 
-import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
-import love.cq.util.ObjectBean;
-import tn.esprit.spring.controller.RestControlTimesheet;
 import tn.esprit.spring.entities.Mission;
+import tn.esprit.spring.services.ITimesheetService;
 
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(RestControlTimesheet.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment=WebEnvironment.MOCK, classes={ TimesheetApplication.class })
 public class TimesheetTest {
 	//TODO Code clean up
+	private MockMvc mockMvc;
+	
 	@Autowired
-	private MockMvc mvc;
+	private WebApplicationContext webApplicationContext;
+
+	@MockBean 
+	private ITimesheetService timesheetServiceMock;
 	
-	public static String asJsonString(final Object obj) {
-	    try {
-	        final ObjectMapper mapper = new ObjectMapper();
-	        final String jsonContent = mapper.writeValueAsString(obj);
-	        return jsonContent;
-	    } catch (Exception e) {
-	        throw new RuntimeException(e);
-	    }
-	}  
-	
-		
-		/*@Test
-		public void test() throws Exception{
-				System.out.print(asJsonString(new Mission("my mission", "desc")));
-			  this.mvc.perform(post("/ajouterMission")
-			            .contentType(MediaType.APPLICATION_JSON)
-			            .content(asJsonString(new Mission("my mission", "desc"))))
-			            .andDo(print())
-			            .andExpect(status().isOk());
-		}*/
-	
+	@Before
+	public void setUp() {
+		 this.mockMvc = webAppContextSetup(webApplicationContext).build();
+	}
 	
 	@Test
-	public void createRecord_success() throws Exception {
-	
-
-	    Mission myMission = new Mission("my mission", "desc");
-
-	    //Mockito.when(patientRecordRepository.save(record)).thenReturn(record);
-	    
+	public void should_CreateMission_When_ValidRequest() throws Exception {
+		
+		when(timesheetServiceMock.ajouterMission(any(Mission.class))).thenReturn(10);
 	    ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+	    Mission myMission = new Mission("my mission", "desc");
+	   
 	    String json = ow.writeValueAsString(myMission);
 		System.out.print(json);
-	    MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/ajouterMission")
-	            .contentType(MediaType.APPLICATION_JSON)
-	            .accept(MediaType.APPLICATION_JSON)
-	            .content(json);
-
-	    mvc.perform(mockRequest)
-	            .andExpect(status().is2xxSuccessful())	           ;
-	    }
-
+		mockMvc.perform(post("/ajouterMission")
+			   .contentType(MediaType.APPLICATION_JSON)
+			   .content(json)						
+			   .accept(MediaType.APPLICATION_JSON))
+			   .andExpect(status().isOk());	
+  	
+	}
+	
+	
 
 }
