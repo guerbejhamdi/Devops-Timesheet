@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Employe;
-import tn.esprit.spring.entities.EmployePojo;
 import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.entities.Timesheet;
@@ -45,7 +44,7 @@ public class RestControlEmploye {
 	
 	@PostMapping("/ajouterEmployer")
 	@ResponseBody
-	public Employe ajouterEmploye(@RequestBody EmployePojo employe)
+	public Employe ajouterEmploye(@RequestBody Employe employe)
 	{	Employe employeDto =new Employe(employe.getNom(), employe.getPrenom(), employe.getEmail(), employe.getPassword(), employe.isActif(), employe.getRole());
 		iemployeservice.addOrUpdateEmploye(employeDto);
 		return employeDto;

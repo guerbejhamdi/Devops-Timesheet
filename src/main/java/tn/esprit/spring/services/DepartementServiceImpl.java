@@ -11,7 +11,6 @@ import tn.esprit.spring.repository.DepartementRepository;
 
 @Service
 public class DepartementServiceImpl implements IDepartementService {
-	private static final Logger logger = Logger.getLogger(DepartementServiceImpl.class);
 
 
 	@Autowired
@@ -20,7 +19,6 @@ public class DepartementServiceImpl implements IDepartementService {
 
 	public List<Departement> getAllDepartements() {
 		
-		logger.info("In getAllDepartements() : ");
 		return (List<Departement>) deptRepoistory.findAll();
 	}
 	

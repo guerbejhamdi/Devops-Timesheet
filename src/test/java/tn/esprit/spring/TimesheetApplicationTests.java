@@ -3,7 +3,6 @@ package tn.esprit.spring;
 import static org.junit.Assert.assertEquals;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,6 @@ class TimesheetApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-	
-   	@Test
-	public void testGetDepartement() {
-	assertEquals(0, departSer.getAllDepartements().size());
-}
+
+
 }
