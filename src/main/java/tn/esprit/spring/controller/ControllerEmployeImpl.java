@@ -19,7 +19,10 @@ import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.entities.Role;
 import tn.esprit.spring.entities.Timesheet;
+import tn.esprit.spring.services.IContratService;
+import tn.esprit.spring.services.IDepartementService;
 import tn.esprit.spring.services.IEmployeService;
+import tn.esprit.spring.services.IEntrepriseService;
 
 
 @Scope(value = "session")
@@ -30,6 +33,12 @@ public class ControllerEmployeImpl  {
 
 	@Autowired
 	IEmployeService employeService;
+	@Autowired
+	IContratService contratService;
+	@Autowired
+	IEntrepriseService entrepriseService;
+	@Autowired
+	IDepartementService departementService;
 
 	private String login; 
 	private String password; 
@@ -185,13 +194,13 @@ public class ControllerEmployeImpl  {
 	}
 
 	public int ajouterContrat(Contrat contrat) {
-		employeService.ajouterContrat(contrat);
+		contratService.ajouterContrat(contrat);
 		return contrat.getReference();
 	}
 
 	public void affecterContratAEmploye(int contratId, int employeId)
 	{
-		employeService.affecterContratAEmploye(contratId, employeId);
+		contratService.affecterContratAEmploye(contratId, employeId);
 	}
 
 
@@ -204,7 +213,7 @@ public class ControllerEmployeImpl  {
 
 	}
 	public void deleteContratById(int contratId) {
-		employeService.deleteContratById(contratId);
+		contratService.deleteContratById(contratId);
 	}
 
 	public int getNombreEmployeJPQL() {
@@ -218,7 +227,7 @@ public class ControllerEmployeImpl  {
 	}
 
 	public List<Employe> getAllEmployeByEntreprise(Entreprise entreprise) {
-		return employeService.getAllEmployeByEntreprise(entreprise);
+		return entrepriseService.getAllEmployeByEntreprise(entreprise);
 	}
 
 	public void mettreAjourEmailByEmployeIdJPQL(String email, int employeId) {	
@@ -227,7 +236,7 @@ public class ControllerEmployeImpl  {
 	}
 
 	public void deleteAllContratJPQL() {
-		employeService.deleteAllContratJPQL();
+		contratService.deleteAllContratJPQL();
 
 	}
 
@@ -237,7 +246,7 @@ public class ControllerEmployeImpl  {
 
 
 	public Double getSalaireMoyenByDepartementId(int departementId) {
-		return employeService.getSalaireMoyenByDepartementId(departementId);
+		return departementService.getSalaireMoyenByDepartementId(departementId);
 	}
 
 	public List<Timesheet> getTimesheetsByMissionAndDate(Employe employe, Mission mission, Date dateDebut,

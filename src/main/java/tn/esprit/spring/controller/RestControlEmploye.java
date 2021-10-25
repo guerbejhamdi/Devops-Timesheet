@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Employe;
+import tn.esprit.spring.entities.EmployePojo;
 import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.entities.Timesheet;
+import tn.esprit.spring.services.IContratService;
+import tn.esprit.spring.services.IDepartementService;
 import tn.esprit.spring.services.IEmployeService;
 import tn.esprit.spring.services.IEntrepriseService;
 import tn.esprit.spring.services.ITimesheetService;
@@ -30,6 +33,10 @@ public class RestControlEmploye {
 	@Autowired
 	IEntrepriseService ientrepriseservice;
 	@Autowired
+	IContratService icontratservice;
+	@Autowired
+	IDepartementService idepartementservice;
+	@Autowired
 	ITimesheetService itimesheetservice;
 
 	
@@ -38,10 +45,10 @@ public class RestControlEmploye {
 	
 	@PostMapping("/ajouterEmployer")
 	@ResponseBody
-	public Employe ajouterEmploye(@RequestBody Employe employe)
-	{
-		iemployeservice.addOrUpdateEmploye(employe);
-		return employe;
+	public Employe ajouterEmploye(@RequestBody EmployePojo employe)
+	{	Employe employeDto =new Employe(employe.getNom(), employe.getPrenom(), employe.getEmail(), employe.getPassword(), employe.isActif(), employe.getRole());
+		iemployeservice.addOrUpdateEmploye(employeDto);
+		return employeDto;
 	}
 	
 	// Modifier email : http://localhost:8081/SpringMVC/servlet/modifyEmail/1/newemail
@@ -70,7 +77,7 @@ public class RestControlEmploye {
 	@PostMapping("/ajouterContrat")
 	@ResponseBody
 	public int ajouterContrat(@RequestBody Contrat contrat) {
-		iemployeservice.ajouterContrat(contrat);
+		icontratservice.ajouterContrat(contrat);
 		return contrat.getReference();
 	}
 	
@@ -78,7 +85,7 @@ public class RestControlEmploye {
    @PutMapping(value = "/affecterContratAEmploye/{idcontrat}/{idemp}") 
 	public void affecterContratAEmploye(@PathVariable("idcontrat")int contratId, @PathVariable("idemp")int employeId)
 	{
-		iemployeservice.affecterContratAEmploye(contratId, employeId);
+	   icontratservice.affecterContratAEmploye(contratId, employeId);
 	}
 
 	
@@ -102,7 +109,7 @@ public class RestControlEmploye {
     @DeleteMapping("/deleteContratById/{idcontrat}") 
 	@ResponseBody
 	public void deleteContratById(@PathVariable("idcontrat")int contratId) {
-		iemployeservice.deleteContratById(contratId);
+    	icontratservice.deleteContratById(contratId);
 	}
 
     
@@ -127,7 +134,7 @@ public class RestControlEmploye {
     @ResponseBody
 	public List<Employe> getAllEmployeByEntreprise(@PathVariable("identreprise") int identreprise) {
     	Entreprise entreprise=ientrepriseservice.getEntrepriseById(identreprise);
-		return iemployeservice.getAllEmployeByEntreprise(entreprise);
+		return ientrepriseservice.getAllEmployeByEntreprise(entreprise);
 	}
 
  // Modifier email : http://localhost:8081/SpringMVC/servlet/mettreAjourEmailByEmployeIdJPQL/2/newemail
@@ -142,7 +149,7 @@ public class RestControlEmploye {
     @DeleteMapping("/deleteAllContratJPQL") 
 	@ResponseBody
 	public void deleteAllContratJPQL() {
-		iemployeservice.deleteAllContratJPQL();
+    	icontratservice.deleteAllContratJPQL();
 		
 	}
 
@@ -157,7 +164,7 @@ public class RestControlEmploye {
     @GetMapping(value = "getSalaireMoyenByDepartementId/{iddept}")
     @ResponseBody
 	public Double getSalaireMoyenByDepartementId(@PathVariable("iddept")int departementId) {
-		return iemployeservice.getSalaireMoyenByDepartementId(departementId);
+		return idepartementservice.getSalaireMoyenByDepartementId(departementId);
 	}
 
 	

@@ -19,5 +19,10 @@ public class DepartementServiceImpl implements IDepartementService {
 	public List<Departement> getAllDepartements() {
 		return (List<Departement>) deptRepoistory.findAll();
 	}
+	
+	public Double getSalaireMoyenByDepartementId(int departementId) {
+		return deptRepoistory.getSalaireMoyenByDepartementId(departementId);
+	}
+
 
 }

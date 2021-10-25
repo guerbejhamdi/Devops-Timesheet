@@ -9,6 +9,7 @@ public interface IDepartementService {
 	
 	
 	public List<Departement> getAllDepartements();
+	public Double getSalaireMoyenByDepartementId(int departementId);
 
 
 	
