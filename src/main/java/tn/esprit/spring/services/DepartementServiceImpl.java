@@ -26,5 +26,16 @@ public class DepartementServiceImpl implements IDepartementService {
 		return deptRepoistory.getSalaireMoyenByDepartementId(departementId);
 	}
 
+	@Transactional
+	public void deleteDepartementById(int depId) {
+		deptRepoistory.delete(deptRepoistory.findById(depId).get());	
+	}
+	public int ajouterDepartement(Departement dep) {
+		deptRepoistory.save(dep);
+		return dep.getId();
+	}
+	 
+
+
 
 }
