@@ -26,10 +26,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 		return entreprise.getId();
 	}
 
-	public int ajouterDepartement(Departement dep) {
-		deptRepoistory.save(dep);
-		return dep.getId();
-	}
+	
 	
 	public void affecterDepartementAEntreprise(int depId, int entrepriseId) {
 		//Le bout Master de cette relation N:1 est departement  
@@ -44,6 +41,17 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 				deptRepoistory.save(depManagedEntity);
 		
 	}
+	
+	public int ajouterDepartement(Departement dep) {
+		deptRepoistory.save(dep);
+		return dep.getId();
+	}
+	
+	@Transactional
+	public void deleteDepartementById(int depId) {
+		deptRepoistory.delete(deptRepoistory.findById(depId).get());	
+	}
+
 	
 	public List<String> getAllDepartementsNamesByEntreprise(int entrepriseId) {
 		Entreprise entrepriseManagedEntity = entrepriseRepoistory.findById(entrepriseId).get();
@@ -60,11 +68,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 		entrepriseRepoistory.delete(entrepriseRepoistory.findById(entrepriseId).get());	
 	}
 
-	@Transactional
-	public void deleteDepartementById(int depId) {
-		deptRepoistory.delete(deptRepoistory.findById(depId).get());	
-	}
-
+	
 
 	public Entreprise getEntrepriseById(int entrepriseId) {
 		return entrepriseRepoistory.findById(entrepriseId).get();	
