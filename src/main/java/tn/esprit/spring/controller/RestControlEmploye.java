@@ -3,6 +3,8 @@ package tn.esprit.spring.controller;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import tn.esprit.spring.TimesheetApplication;
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.entities.Entreprise;
@@ -38,7 +41,8 @@ public class RestControlEmploye {
 	@Autowired
 	ITimesheetService itimesheetservice;
 
-	
+	private static final Logger LOGGER = LogManager.getLogger(TimesheetApplication.class);
+
 	// http://localhost:8081/SpringMVC/servlet/ajouterEmployer
 	//{"id":1,"nom":"kallel", "prenom":"khaled", "email":"Khaled.kallel@ssiiconsulting.tn", "isActif":true, "role":"INGENIEUR"}
 	
@@ -76,6 +80,10 @@ public class RestControlEmploye {
 	@PostMapping("/ajouterContrat")
 	@ResponseBody
 	public int ajouterContrat(@RequestBody Contrat contrat) {
+		LOGGER.info("add contrat info");
+		LOGGER.warn("add contrat warn");
+		LOGGER.warn("add contrat error");
+		LOGGER.warn("add contrat debug");
 		icontratservice.ajouterContrat(contrat);
 		return contrat.getReference();
 	}
