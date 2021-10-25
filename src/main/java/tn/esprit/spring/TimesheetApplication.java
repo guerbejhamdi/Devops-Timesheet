@@ -22,9 +22,8 @@ public class TimesheetApplication {
 
 	
 	public static void main(String[] args) {
-		DepartementServiceImpl d = new DepartementServiceImpl();
-	        d.getAllDepartements();
-	//	SpringApplication.run(TimesheetApplication.class, args);
+
+		SpringApplication.run(TimesheetApplication.class, args);
 		
 	}
 
