@@ -2,6 +2,8 @@ package tn.esprit.spring.services;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +17,11 @@ public class DepartementServiceImpl implements IDepartementService {
 
 	@Autowired
 	DepartementRepository deptRepoistory;
+    private static final Logger LOGGER = LogManager.getLogger(DepartementServiceImpl.class);
 
 
 	public List<Departement> getAllDepartements() {
+		LOGGER.info("Currently in getAllDepartements(");
 		
 		return (List<Departement>) deptRepoistory.findAll();
 	}

@@ -42,15 +42,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 		
 	}
 	
-	public int ajouterDepartement(Departement dep) {
-		deptRepoistory.save(dep);
-		return dep.getId();
-	}
-	
-	@Transactional
-	public void deleteDepartementById(int depId) {
-		deptRepoistory.delete(deptRepoistory.findById(depId).get());	
-	}
+
 
 	
 	public List<String> getAllDepartementsNamesByEntreprise(int entrepriseId) {
