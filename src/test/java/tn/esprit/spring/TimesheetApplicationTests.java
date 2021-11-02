@@ -13,17 +13,12 @@ import tn.esprit.spring.services.DepartementServiceImpl;
 @SpringBootTest
 class TimesheetApplicationTests {
 
-	/*@Autowired
-	DepartementServiceImpl departSer ;*/
+	@Autowired
+	DepartementServiceImpl departSer ;
 
 	@Test
 	void contextLoads() {
 	}
 
 
-	/*@Test
-	public void testGetDepartement() {
-		assertEquals(0, departSer.getAllDepartements().size());
-
-	}*/
 }
