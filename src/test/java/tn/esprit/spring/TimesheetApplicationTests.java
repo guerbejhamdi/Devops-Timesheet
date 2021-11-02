@@ -13,8 +13,8 @@ import tn.esprit.spring.services.DepartementServiceImpl;
 @SpringBootTest
 class TimesheetApplicationTests {
 
-	@Autowired
-	DepartementServiceImpl departSer ;
+	/*@Autowired
+	DepartementServiceImpl departSer ;*/
 
 	@Test
 	void contextLoads() {
