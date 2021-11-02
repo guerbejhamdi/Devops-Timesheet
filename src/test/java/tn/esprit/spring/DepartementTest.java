@@ -20,11 +20,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 	@Autowired
 	DepartementServiceImpl departSer ;
 	
-	@Test
+	/*@Test
 	public void testGetDepartement() {
 		assertEquals(0, departSer.getAllDepartements().size());
 
-	}
+	}*/
 
 
 
