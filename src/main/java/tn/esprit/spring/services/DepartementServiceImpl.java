@@ -1,6 +1,7 @@
 package tn.esprit.spring.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,7 +33,13 @@ public class DepartementServiceImpl implements IDepartementService {
 
 	@Transactional
 	public void deleteDepartementById(int depId) {
-		deptRepoistory.delete(deptRepoistory.findById(depId).get());	
+		
+		Optional<Departement> depOptional = deptRepoistory.findById(depId);
+		if(depOptional.isPresent())
+		{
+			deptRepoistory.delete(depOptional.get());	
+		}
+
 	}
 	public int ajouterDepartement(Departement dep) {
 		deptRepoistory.save(dep);
