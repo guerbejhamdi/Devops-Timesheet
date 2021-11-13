@@ -9,10 +9,13 @@ import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.repository.ContratRepository;
 import tn.esprit.spring.repository.EmployeRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Service
 public class ContratServiceImpl implements IContratService {
 
+	private static final Logger l = LogManager.getLogger(EmployeServiceImpl.class);
 
 	@Autowired
 	ContratRepository contratRepository;
@@ -29,21 +32,32 @@ public class ContratServiceImpl implements IContratService {
 	}
 	
 	public void affecterContratAEmploye(int contratId, int employeId) {
-		Contrat contratManagedEntity = contratRepository.findById(contratId).get();
-		Employe employeManagedEntity = employeRepository.findById(employeId).get();
 
-		contratManagedEntity.setEmploye(employeManagedEntity);
-		contratRepository.save(contratManagedEntity);
+		try {
+			Contrat contratManagedEntity = contratRepository.findById(contratId).orElse(null);
+			Employe employeManagedEntity = employeRepository.findById(employeId).orElse(null);
+			if (contratManagedEntity != null && employeManagedEntity != null) {
+				contratManagedEntity.setEmploye(employeManagedEntity);
+				contratRepository.save(contratManagedEntity);
+			}
+		} catch (NullPointerException npe) {
+			l.error(npe);
+		}
 
 	}
-	
+	//
 	public void deleteAllContratJPQL() {
 		contratRepository.deleteAllContratJPQL();
 	}
 	
 	public void deleteContratById(int contratId) {
-		Contrat contratManagedEntity = contratRepository.findById(contratId).get();
-		contratRepository.delete(contratManagedEntity);
+
+		Contrat contratManagedEntity = contratRepository.findById(contratId).orElse(null);
+		if (contratManagedEntity != null) {
+			contratRepository.delete(contratManagedEntity);
+		} else {
+			l.error("Contrat may be NULL");
+		}
 
 	}
 
