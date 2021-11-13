@@ -3,13 +3,16 @@ package tn.esprit.spring.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
+
 import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.entities.Timesheet;
 import tn.esprit.spring.repository.ContratRepository;
@@ -42,43 +45,57 @@ public class EmployeServiceImpl implements IEmployeService {
 
 
 	public void mettreAjourEmailByEmployeId(String email, int employeId) {
-		Employe employe = employeRepository.findById(employeId).get();
-		employe.setEmail(email);
-		employeRepository.save(employe);
-
+		Optional<Employe> empOptional = employeRepository.findById(employeId);
+		if(empOptional.isPresent()){
+			Employe employe =	empOptional.get();
+			employe.setEmail(email);
+			employeRepository.save(employe);	
+		}
+	
 	}
 
 	@Transactional	
 	public void affecterEmployeADepartement(int employeId, int depId) {
-		Departement depManagedEntity = deptRepoistory.findById(depId).get();
-		Employe employeManagedEntity = employeRepository.findById(employeId).get();
+		Optional<Employe> empOptional = employeRepository.findById(employeId);
+		Optional<Departement> depOptional = deptRepoistory.findById(depId);
+		if(empOptional.isPresent()&&  depOptional.isPresent()){
+			Departement depManagedEntity = depOptional.get();
+			Employe employeManagedEntity = empOptional.get();
+			if(depManagedEntity.getEmployes() == null){
 
-		if(depManagedEntity.getEmployes() == null){
+				List<Employe> employes = new ArrayList<>();
+				employes.add(employeManagedEntity);
+				depManagedEntity.setEmployes(employes);
+			}else{
 
-			List<Employe> employes = new ArrayList<>();
-			employes.add(employeManagedEntity);
-			depManagedEntity.setEmployes(employes);
-		}else{
+				depManagedEntity.getEmployes().add(employeManagedEntity);
+			}
 
-			depManagedEntity.getEmployes().add(employeManagedEntity);
+		
+			deptRepoistory.save(depManagedEntity); 
 		}
+	
 
-		// à ajouter? 
-		deptRepoistory.save(depManagedEntity); 
+		
 
 	}
 	@Transactional
 	public void desaffecterEmployeDuDepartement(int employeId, int depId)
 	{
-		Departement dep = deptRepoistory.findById(depId).get();
-
-		int employeNb = dep.getEmployes().size();
-		for(int index = 0; index < employeNb; index++){
-			if(dep.getEmployes().get(index).getId() == employeId){
-				dep.getEmployes().remove(index);
-				break;//a revoir
+		Optional<Departement> depOptional =deptRepoistory.findById(depId);
+		if(depOptional.isPresent()){
+			Departement dep = depOptional.get();
+			int employeNb = dep.getEmployes().size();
+			for(int index = 0; index < employeNb; index++){
+				if(dep.getEmployes().get(index).getId() == employeId){
+					dep.getEmployes().remove(index);
+					break;//a revoir
+				}
 			}
 		}
+	
+
+		
 	} 
 	
 	// Tablesapce (espace disque) 
@@ -88,22 +105,35 @@ public class EmployeServiceImpl implements IEmployeService {
 	
 
 	public String getEmployePrenomById(int employeId) {
-		Employe employeManagedEntity = employeRepository.findById(employeId).get();
-		return employeManagedEntity.getPrenom();
+		Optional<Employe> empOptional = employeRepository.findById(employeId);
+		if(empOptional.isPresent()){
+			Employe employeManagedEntity =empOptional.get();
+			return employeManagedEntity.getPrenom();
+		}else {
+			//throw new Exception("Exception message");
+			return "error";
+			
+		}
+		
+	
 	}
 	 
 	public void deleteEmployeById(int employeId)
-	{
-		Employe employe = employeRepository.findById(employeId).get();
-
+	{Optional<Employe> empOptional = employeRepository.findById(employeId);
+	if(empOptional.isPresent()){
+		Employe employe = empOptional.get();
 		//Desaffecter l'employe de tous les departements
-		//c'est le bout master qui permet de mettre a jour
-		//la table d'association
+				//c'est le bout master qui permet de mettre a jour
+				//la table d'association
+		
 		for(Departement dep : employe.getDepartements()){
 			dep.getEmployes().remove(employe);
 		}
 
 		employeRepository.delete(employe);
+	}
+	
+	
 	}
 
 
