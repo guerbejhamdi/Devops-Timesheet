@@ -15,7 +15,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-standalone/timesheet-spring?autoReconnect=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: "root"
-      SPRING_DATASOURCE_PASSWORD: ""
+      SPRING_DATASOURCE_PASSWORD: 
     build:
       context: "./"
       dockerfile: "DockerFile"
