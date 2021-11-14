@@ -1,0 +1,24 @@
+version: "3"
+services:
+  
+  mysql:
+    container_name: mysql-db
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root2021
+      - MYSQL_DATABASE=timesheetspring
+    
+    ports:
+      - 3307:3306
+    
+    
+  Timesheet:
+    container_name: timesheet
+    ports:
+      - 8082:8082
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/timesheetspring?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
+    
+    image: "199508055180/test:33"
+    depends_on:
+      - mysql

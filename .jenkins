@@ -1,0 +1,62 @@
+pipeline {
+agent any
+environment { 
+        registry = "199508055180/test" 
+        registryCredential = 'dockerHub' 
+        dockerImage = '' 
+    }
+stages{
+stage('Setup') {
+    steps {
+         deleteDir()
+        dir ('DevOps') {
+            deleteDir()
+        }
+    }
+}
+stage('clone and clean repo'){
+steps {
+    
+bat "git clone https://github.com/FaresEsprit20/DevOps . "
+
+bat "mvn clean "
+}
+
+}
+stage('Test'){
+
+steps{ bat "mvn test  "
+}}
+stage('Deploy'){
+steps {
+
+bat "mvn package  "
+bat "mvn deploy  "
+bat "mvn sonar:sonar  "
+}
+
+}
+
+
+ stage('Building Docker Image') {
+            steps{
+                script {
+                   
+                  DOCKER_BUILDKIT=0
+                dockerImage = docker.build registry + ":$BUILD_NUMBER"
+               
+                }
+            }
+          }
+           stage('Push Docker Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+          dockerImage.push()
+        }
+        }
+        }
+}
+
+}
+}
