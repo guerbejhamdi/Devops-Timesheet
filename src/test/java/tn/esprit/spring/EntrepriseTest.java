@@ -41,7 +41,7 @@ public class EntrepriseTest {
     	Entreprise enp = new Entreprise("med ink","idk");
     	IEmps.ajouterEntreprise(enp);
 		l.info("add successful ");
-		l.debug("it sould work");
+		
 		
     	
     }
