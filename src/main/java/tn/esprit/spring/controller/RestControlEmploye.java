@@ -19,6 +19,7 @@ import tn.esprit.spring.TimesheetApplication;
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Contrats;
 import tn.esprit.spring.entities.Employe;
+import tn.esprit.spring.entities.EmployePojo;
 import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.entities.Timesheet;
@@ -42,17 +43,17 @@ public class RestControlEmploye {
 	@Autowired
 	ITimesheetService itimesheetservice;
 
-	private static final Logger LOGGER = LogManager.getLogger(TimesheetApplication.class);
+
 
 	// http://localhost:8081/SpringMVC/servlet/ajouterEmployer
 	//{"id":1,"nom":"kallel", "prenom":"khaled", "email":"Khaled.kallel@ssiiconsulting.tn", "isActif":true, "role":"INGENIEUR"}
 	
 	@PostMapping("/ajouterEmployer")
 	@ResponseBody
-	public Employe ajouterEmploye(@RequestBody Employe employe)
-	{	Employe employeDto =new Employe(employe.getNom(), employe.getPrenom(), employe.getEmail(), employe.getPassword(), employe.isActif(), employe.getRole());
-		iemployeservice.addOrUpdateEmploye(employeDto);
-		return employeDto;
+	public Employe ajouterEmploye(@RequestBody EmployePojo employePojo)
+	{	Employe employe =new Employe(employePojo.getNom(), employePojo.getPrenom(), employePojo.getEmail(), employePojo.getPassword(), employePojo.isActif(), employePojo.getRole());
+		iemployeservice.addOrUpdateEmploye(employe);
+		return employe;
 	}
 	
 	// Modifier email : http://localhost:8081/SpringMVC/servlet/modifyEmail/1/newemail
