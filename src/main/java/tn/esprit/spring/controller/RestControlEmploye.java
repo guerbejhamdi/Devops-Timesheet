@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tn.esprit.spring.TimesheetApplication;
 import tn.esprit.spring.entities.Contrat;
+import tn.esprit.spring.entities.Contrats;
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Mission;
@@ -78,14 +79,13 @@ public class RestControlEmploye {
 	// http://localhost:8081/SpringMVC/servlet/ajouterContrat
 	//{"reference":6,"dateDebut":"2020-03-01","salaire":2000,"typeContrat":"CDD"}
 	@PostMapping("/ajouterContrat")
-	@ResponseBody
-	public int ajouterContrat(@RequestBody Contrat contrat) {
-		LOGGER.info("add contrat info");
-		LOGGER.warn("add contrat warn");
-		LOGGER.warn("add contrat error");
-		LOGGER.warn("add contrat debug");
-		icontratservice.ajouterContrat(contrat);
-		return contrat.getReference();
+	public int ajouterContrat(Contrats contrat) {
+		Contrat persistantContrat= new Contrat();
+		persistantContrat.setDateDebut(contrat.getDateDebut());
+		persistantContrat.setSalaire(contrat.getSalaire());
+		persistantContrat.setTypeContrat(contrat.getTypeContrat());
+		icontratservice.ajouterContrat(persistantContrat);
+		return persistantContrat.getReference();
 	}
 	
 	// http://localhost:8081/SpringMVC/servlet/affecterContratAEmploye/6/1
