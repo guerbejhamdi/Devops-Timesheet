@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.entities.Mission;
+import tn.esprit.spring.entities.Missions;
 import tn.esprit.spring.services.IEmployeService;
 import tn.esprit.spring.services.IEntrepriseService;
 import tn.esprit.spring.services.ITimesheetService;
@@ -32,9 +33,12 @@ public class RestControlTimesheet {
 	//{"id":4,"name":"mamission", "description":"c ma mission"}
 	@PostMapping("/ajouterMission")
 	@ResponseBody
-	public int ajouterMission(@RequestBody Mission mission) {
-		itimesheetservice.ajouterMission(mission);
-		return mission.getId();
+	public int ajouterMission(@RequestBody Missions mission) {
+		Mission persistantMission= new Mission();
+		persistantMission.setName(mission.getName());
+		persistantMission.setDescription(mission.getDescription());
+		itimesheetservice.ajouterMission(persistantMission);
+		return persistantMission.getId();
 	}
 
 	// http://localhost:8081/SpringMVC/servlet/affecterMissionADepartement/4/4
