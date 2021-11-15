@@ -43,25 +43,6 @@ public class DepartementTest{
 		l.info("add successful ");
 	}
 	
-	@After("execution(* tn.esprit.spring.service.*.*(..))")
-	public void logMethodExit(JoinPoint joinPoint){
-		String name= joinPoint.getSignature().getName();
-		String msg="Out of method : " +name;
-		l.info(msg);
-	}
-	
-	@Around("execution(* tn.esprit.spring.service.*.*(..))")
-	public Object profile(ProceedingJoinPoint pjp) throws Throwable {
-	long start = System.currentTimeMillis();
-	Object obj = pjp.proceed();
-	long elapsedTime = System.currentTimeMillis() - start;
-	if (elapsedTime > 3000) {
-		l.fatal("This process takes more than 3sec to execute");
-	}
-	
-	String msg="Method execution time: " + elapsedTime + " milliseconds.";
-	l.info(msg);
-		return obj;
-	}
+
 
 }
