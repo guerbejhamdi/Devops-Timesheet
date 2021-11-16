@@ -2,9 +2,6 @@ package tn.esprit.spring.controller;
 
 import java.util.Date;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import tn.esprit.spring.TimesheetApplication;
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Contrats;
 import tn.esprit.spring.entities.Employe;
@@ -31,6 +26,7 @@ import tn.esprit.spring.services.ITimesheetService;
 
 @RestController
 public class RestControlEmploye {
+	
 
 	@Autowired
 	IEmployeService iemployeservice;
@@ -45,8 +41,11 @@ public class RestControlEmploye {
 
 
 
+
+	
+	
+	
 	// http://localhost:8081/SpringMVC/servlet/ajouterEmployer
-	//{"id":1,"nom":"kallel", "prenom":"khaled", "email":"Khaled.kallel@ssiiconsulting.tn", "isActif":true, "role":"INGENIEUR"}
 	
 	@PostMapping("/ajouterEmployer")
 	@ResponseBody
@@ -77,8 +76,8 @@ public class RestControlEmploye {
 		iemployeservice.desaffecterEmployeDuDepartement(employeId, depId);
 	}
 
-	// http://localhost:8081/SpringMVC/servlet/ajouterContrat
-	//{"reference":6,"dateDebut":"2020-03-01","salaire":2000,"typeContrat":"CDD"}
+	// http://localhost:8081/SpringMVC/servlet/ajouterContrat {"reference":6,"dateDebut":"2020-03-01","salaire":2000,"typeContrat":"CDD"}
+	
 	@PostMapping("/ajouterContrat")
 	public int ajouterContrat(Contrats contrat) {
 		Contrat persistantContrat= new Contrat();
@@ -176,7 +175,7 @@ public class RestControlEmploye {
 	}
 
 	
-	//TODO
+
 	public List<Timesheet> getTimesheetsByMissionAndDate(Employe employe, Mission mission, Date dateDebut,
 			Date dateFin) {
 		return iemployeservice.getTimesheetsByMissionAndDate(employe, mission, dateDebut, dateFin);
