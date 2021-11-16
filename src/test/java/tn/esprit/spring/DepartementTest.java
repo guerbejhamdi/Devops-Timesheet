@@ -40,7 +40,7 @@ public class DepartementTest{
 		Departement dep= new Departement("Informatique");
 		departementServiceImpl.ajouterDepartement(dep);
 		//Emps.getSalaireMoyenByDepartementId(dep.getId());
-		l.info("added successfully ");
+		l.info("added dep successfully ");
 	}
 	
 
