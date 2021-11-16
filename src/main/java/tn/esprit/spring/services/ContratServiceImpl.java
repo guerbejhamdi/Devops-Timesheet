@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 @Service
 public class ContratServiceImpl implements IContratService {
 
-	private static final Logger l = LogManager.getLogger(EmployeServiceImpl.class);
+	private static final Logger l = LogManager.getLogger(ContratServiceImpl.class);
 
 	@Autowired
 	ContratRepository contratRepository;
@@ -28,6 +28,8 @@ public class ContratServiceImpl implements IContratService {
 	}
 	public int ajouterContrat(Contrat contrat) {
 		contratRepository.save(contrat);
+        l.info("Contrat ajouté");
+
 		return contrat.getReference();
 	}
 	

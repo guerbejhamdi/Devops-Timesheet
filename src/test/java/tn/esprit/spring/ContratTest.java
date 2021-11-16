@@ -37,10 +37,10 @@ public class ContratTest {
         l.info(" Create the Current Date");
         Employe emp = new Employe("harbaoui", "ichrak", "ichrak.harbaoui@esprit.tn", true, Role.INGENIEUR);
         Contrat contrat= new Contrat(current,"travail Administratif",1000);
-        l.info("Contrat ajouté");
+
         IEmps.addOrUpdateEmploye(emp);
         l.info("Employe ajoutéé");
-	
+
 		contratServiceImpl.ajouterContrat(contrat);
         IContrat.affecterContratAEmploye(contrat.getReference(),emp.getId());
         l.info("Contrat affecté à employé");
