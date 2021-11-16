@@ -5,13 +5,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import tn.esprit.spring.EmployeTest;
+
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
 
@@ -33,8 +31,6 @@ public class EmployeServiceImpl implements IEmployeService {
 	ContratRepository contratRepoistory;
 	@Autowired
 	TimesheetRepository timesheetRepository;
-	
-	private static final Logger l= LogManager.getLogger(EmployeServiceImpl.class);
 
 	@Override
 	public Employe authenticate(String login, String password) {
@@ -109,17 +105,13 @@ public class EmployeServiceImpl implements IEmployeService {
 	
 
 	public String getEmployePrenomById(int employeId) {
-		l.info("inside  methode getEmployePrenomById ");
 		Optional<Employe> empOptional = employeRepository.findById(employeId);
 		if(empOptional.isPresent()){
 			Employe employeManagedEntity =empOptional.get();
-			l.info("returning employe prenom ");
 			return employeManagedEntity.getPrenom();
-			
 		}else {
-			l.error("Error on (prenomEmploye) or (EmployeId) ");
-			
-			return null;
+			//throw new Exception("Exception message");
+			return "error";
 			
 		}
 		
